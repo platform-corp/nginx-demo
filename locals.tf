@@ -267,7 +267,6 @@ locals {
     ignition_users = [
         {
             name = "core"
-            ssh_authorized_keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEYTP5V4G7Mx8K2W2uyGWzvVIwOZj6Y9lle4UJyPCpos leventesimon@MacBook-Pro-3.local" ]
         },
         {
             name = "config"
