@@ -1,0 +1,16 @@
+[Unit]
+Description=Provisioner Service
+# Requires=pre-provisioner.service
+Requires=vault-agent.service
+
+[Service]
+TimeoutStartSec=600
+# User=config
+RemainAfterExit=yes
+Restart=no
+ExecStartPre=/usr/bin/chcon -Rt container_file_t /usr/local/etc/services
+ExecStartPre=/usr/bin/chcon -Rt container_file_t /usr/local/share/services
+ExecStart=/bin/sh -x /usr/local/bin/provisioner.sh /usr/local/etc/provisioner
+
+[Install]
+WantedBy=multi-user.target

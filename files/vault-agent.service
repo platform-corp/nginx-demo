@@ -1,0 +1,16 @@
+[Unit]
+Description=Vault Agent
+Requires=getcert.service
+Documentation=https://www.vaultproject.io/docs/agent
+
+[Service]
+Restart=always
+TimeoutStartSec=600
+ExecStartPre=-/usr/bin/podman kill vault-agent
+ExecStartPre=-/usr/bin/podman rm vault-agent
+ExecStartPre=/usr/bin/podman pull docker.io/hashicorp/vault:latest
+ExecStart=/usr/bin/podman run --privileged --name vault-agent --cap-add=IPC_LOCK -v /usr/local/etc/vault-agent:/agent-config -v /usr/local/etc:/service-config -v /etc/pki:/etc/pki:ro docker.io/hashicorp/vault:latest agent -config=/agent-config/agent-config.hcl
+ExecStop=/usr/bin/docker stop vault-agent
+
+[Install]
+WantedBy=multi-user.target

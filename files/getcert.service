@@ -1,0 +1,15 @@
+[Unit]
+Description=Get certificate from Vault
+Requires=podman.socket network-online.target
+After=network-online.target 
+
+[Service]
+EnvironmentFile=/usr/local/etc/getcert/getcert.conf
+User = config
+Type=oneshot
+RemainAfterExit=yes
+Restart=no
+ExecStart=/bin/sh /usr/local/bin/getcert.sh
+
+[Install]
+WantedBy=vault-agent.service

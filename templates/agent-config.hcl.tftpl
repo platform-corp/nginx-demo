@@ -1,0 +1,29 @@
+pid_file = "/tmp/pidfile"
+
+vault {
+  address = "${vault_address}"
+  retry {
+    num_retries = 5
+  }
+}
+
+auto_auth {
+  method "cert" {
+    mount_path = "auth/${vault_auth_month_path}"
+    config = {
+      client_cert = "/agent-config/pki/cert.pem"
+      client_key = "/agent-config/pki/key.pem"
+    }
+  }
+
+  sink "file" {
+    config = {
+      path = "/tmp/vault-token"
+    }
+  }
+}
+
+template {
+  source = "/agent-config/templates/provisioner.cfg.ctmpl"
+  destination = "/service-config/provisioner/provisioner.cfg"
+}
